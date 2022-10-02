@@ -1,0 +1,38 @@
+{% extends 'login_type.html' %} {% block main %}
+<div class="auth-inner my-2">
+	<!-- Forgot Password basic -->
+	<div class="card mb-0">
+		<div class="card-body">
+			<a href="/" class="brand-logo">
+				<img src="../static/media/images/favicon.png" width="70px" style="border-radius: 30%"
+					alt="Brand-Logo" />
+				<h2 class="brand-text ms-1 my-1" style="color: rgb(0, 0, 0)">
+					Cloud CRM
+				</h2>
+			</a>
+
+			<h4 class="card-title mb-1">Forgot Password? 🔒</h4>
+			<p class="card-text mb-2">
+				Enter your email and we'll send you OPT on your registered Email.
+			</p>
+
+			<form class="auth-forgot-password-form mt-2" action="auth-reset-password-basic.html" method="POST">
+				<div class="mb-1">
+					<label for="forgot-password-email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="forgot-password-email" name="forgot-password-email"
+						placeholder="john@example.com" aria-describedby="forgot-password-email" tabindex="1"
+						autofocus />
+				</div>
+				<button class="btn btn-primary w-100" tabindex="2">
+					Send OTP
+				</button>
+			</form>
+
+			<p class="text-center mt-2">
+				<a href="{{request.META.HTTP_REFERER}}"> <i data-feather="chevron-left"></i> Back to login </a>
+			</p>
+		</div>
+	</div>
+	<!-- /Forgot Password basic -->
+</div>
+{% endblock main %}

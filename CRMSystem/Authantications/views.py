@@ -9,3 +9,6 @@ def adminAuth(request):
 
 def staffAuth(request):
     return render(request, 'login_staff.html')
+
+def varifyMail(request):
+    return render(request, 'varify_mail.html')
