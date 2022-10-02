@@ -14,8 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", include('Authantications.urls'))
 ]
+
+# Depends what you mean by linking. You can share code via import, you can access other apps models and you can use links to send a user between app pages. By including model pks from the other app, you can share data between apps.
