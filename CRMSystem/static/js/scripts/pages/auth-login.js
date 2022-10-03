@@ -29,7 +29,6 @@ $(function () {
       rules: {
         'login-email': {
           required: true,
-          email: true
         },
         'login-password': {
           required: true
