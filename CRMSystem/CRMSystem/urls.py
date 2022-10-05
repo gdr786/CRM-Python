@@ -18,7 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include('Authantications.urls'))
+    path("", include('Authantications.urls'), name="auth"),
+    path("home-admin/", include('AdminHome.urls'), name="homeAdmin")
 ]
 
 # Depends what you mean by linking. You can share code via import, you can access other apps models and you can use links to send a user between app pages. By including model pks from the other app, you can share data between apps.
