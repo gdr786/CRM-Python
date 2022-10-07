@@ -16,7 +16,8 @@
 				Enter your email and we'll send you OPT on your registered Email.
 			</p>
 
-			<form class="auth-forgot-password-form mt-2" action="auth-reset-password-basic.html" method="POST">
+			<form class="auth-forgot-password-form mt-2" action="/auth-forgot-password/{{ type }}" method="POST">
+				{% csrf_token %}
 				<div class="mb-1">
 					<label for="forgot-password-email" class="form-label">Email</label>
 					<input type="email" class="form-control" id="forgot-password-email" name="forgot-password-email"
@@ -27,6 +28,10 @@
 					Send OTP
 				</button>
 			</form>
+
+			{% if errormsg|length > 0 %}
+			<b style="color: red;">{{ errormsg }}</b>
+			{% endif %}
 
 			<p class="text-center mt-2">
 				<a href="{{request.META.HTTP_REFERER}}"> <i data-feather="chevron-left"></i> Back to login </a>

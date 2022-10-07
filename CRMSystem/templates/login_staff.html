@@ -12,7 +12,7 @@
 			<h4 class="card-title mb-1">Welcome to Cloud CRM! 👋</h4>
 			<p class="card-text mb-2">Please sign-in to your staff account</p>
 
-			<form class="auth-login-form mt-2" action="/" method="POST">
+			<form class="auth-login-form mt-2" action="/staff-auth" method="POST">
 				{% csrf_token %}
 				<div class="mb-1">
 					<label for="login-email" class="form-label">User Name</label>
@@ -23,7 +23,7 @@
 				<div class="mb-1">
 					<div class="d-flex justify-content-between">
 						<label class="form-label" for="login-password">Password</label>
-						<a href="auth-forgot-password">
+						<a href="/auth-forgot-password/staff">
 							<small>Forgot Password?</small>
 						</a>
 					</div>
@@ -45,6 +45,10 @@
 					</div>
 				</div>
 
+				{% if errormsg|length > 0 %}
+				<b style="color: red;">{{ errormsg }}</b>
+				{% endif %}
+				
 				<button class="btn btn-primary w-100" tabindex="4">Sign in</button>
 			</form>
 		</div>
