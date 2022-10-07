@@ -8,9 +8,6 @@ import datetime
 import random
 from connection import db
 
-my_mail = "hp0594137@gmail.com"
-my_pass = "jonkfevnecxbyndx"
-
 admin_collection = db['admin']
 staff_collection = db['staff']
 
@@ -76,8 +73,6 @@ def staffAuth(request):
             staff_details = staff_collection.find_one(query)
 
             if (bool(staff_details)):
-                print(bool(staff_details))
-                print("this is in")
                 response = HttpResponse(status=302)
                 response['Location'] = f"staff/check/{staff_details['_id']}"
                 if remember_me:
@@ -113,7 +108,8 @@ def varifyMail(request, type):
             if bool(is_admin):
                 otp = otpgen(6)
                 mail_response = send_email(
-                    "Reset Password", f"OTP : {otp}", my_mail, email)
+                    "Reset Password", f"OTP : {otp}", email)
+
                 request.session['admin_id'] = str(is_admin['_id'])
                 request.session['otp'] = otp
                 return HttpResponseRedirect('/forgot-password-step/admin')
@@ -125,7 +121,8 @@ def varifyMail(request, type):
             if bool(is_staff):
                 otp = otpgen(6)
                 mail_response = send_email(
-                    "Reset Password", f"OTP : {otp}", my_mail, email)
+                    "Reset Password", f"OTP : {otp}", email)
+
                 request.session['staff_id'] = str(is_staff['_id'])
                 request.session['otp'] = otp
                 return HttpResponseRedirect('/forgot-password-step/staff')
@@ -221,7 +218,7 @@ def changePassword(request, type):
 # set cookie using function added by gd
 
 
-def set_cookie(response, key, value, days_expire=7):
+def set_cookie(response, key, value, days_expire=30):
     if days_expire is None:
         max_age = 30 * 24 * 60 * 60  # one month
     else:
@@ -251,11 +248,11 @@ def otpgen(length):
 # mail sender with security added by gd
 
 
-def send_email(subject, message, from_email, to_email):
+def send_email(subject, message, to_email):
     
-    if subject and message and from_email:
+    if subject and message and to_email:
         try:
-            send_mail(subject, message, from_email, [to_email])
+            send_mail(subject, message, 'hp0594137@gmail.com', [to_email])
         except BadHeaderError:
             return "Invalid header found."
         # return HttpResponseRedirect('/contact/thanks/')
