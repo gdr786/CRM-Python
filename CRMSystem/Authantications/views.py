@@ -3,9 +3,10 @@ from django.http import *
 from django.conf import settings
 from django.core.mail import BadHeaderError, send_mail
 
+
 from bson import ObjectId
 import datetime
-import random
+import random,math
 from connection import db
 
 admin_collection = db['admin']
@@ -178,7 +179,7 @@ def resendOtpMail(request, type, uid):
 
         if bool(is_staff):
             otp = otpgen(6)
-            mail_response = send_email("Reset Password", f"OTP : {otp}", my_mail, is_staff['email'])
+            mail_response = send_email("Reset Password", f"OTP : {otp}", is_staff['email'])
             print(mail_response)
 
             return render(request, 'varify_otp.html', context={"type": type, "crossotp": otp, "uid": is_staff['_id'], "email": is_staff['email']})
