@@ -10,5 +10,8 @@ admin_collection = db['admin']
 # Create your views here.
 def checkUser(request, admin_id):
     admin_details = admin_collection.find_one(ObjectId(admin_id))
-    
-    return HttpResponse(f"this is home page with admin id: {admin_id}<br>user : {admin_details['f_name']} {admin_details['l_name']}")
+
+    if bool(admin_details):
+        request.session['otp'] = otp
+    else:
+        return HttpResponseRedirect('/admin-auth')
