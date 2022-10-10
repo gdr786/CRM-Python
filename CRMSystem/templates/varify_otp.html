@@ -1,0 +1,54 @@
+{% extends 'login_type.html' %} {% block main %}
+<div class="auth-inner my-2">
+    <!-- two steps verification basic-->
+    <div class="card mb-0">
+        <div class="card-body">
+            <a href="/" class="brand-logo">
+                <img src="../static/media/images/favicon.png" width="70px" style="border-radius: 30%"
+                    alt="Brand-Logo" />
+                <h2 class="brand-text ms-1 my-1" style="color: rgb(0, 0, 0)">
+                    Cloud CRM
+                </h2>
+            </a>
+
+            <h2 class="card-title fw-bolder mb-1">Two Step Verification 💬</h2>
+            <p class="card-text mb-75">
+                We sent a verification code to your email. Enter the code from the mail in the field below.
+            </p>
+            <p class="card-text fw-bolder mb-2">{{ email }}</p>
+
+            <form class="mt-2" action="/forgot-password-step/{{ type }}" method="POST">
+                {% csrf_token %}
+                <h6>Type your 6 digit security code</h6>
+                <div class="auth-input-wrapper d-flex align-items-center justify-content-between">
+                    <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+                        maxlength="1" name="tx1" autofocus="" />
+
+                    <input type="text" name="tx2" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+                        maxlength="1" />
+
+                    <input type="text" name="tx3" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+                        maxlength="1" />
+
+                    <input type="text" name="tx4" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+                        maxlength="1" />
+
+                    <input type="text" name="tx5" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+                        maxlength="1" />
+
+                    <input type="text" name="tx6" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+                        maxlength="1" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100" tabindex="4">Sign in</button>
+            </form>
+
+
+            <p class="text-center mt-2">
+                <span>Didn’t get the code?</span><a href="/resend-otp-mail/{{ type }}"><span>&nbsp;Resend</span></a>
+            </p>
+        </div>
+    </div>
+    <!-- /two steps verification basic -->
+</div>
+{% endblock main %}
