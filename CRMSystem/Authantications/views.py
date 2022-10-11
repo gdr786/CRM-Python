@@ -15,7 +15,7 @@ staff_collection = db['staff']
 
 # Create your views here.
 def index(request):
-    return render(request, 'login_type.html')
+    return render(request, 'Authantication/login_type.html')
 
 # admin authantication check
 
@@ -49,7 +49,7 @@ def adminAuth(request):
                 # redirect to home app for admin
                 return response
             else:
-                return render(request, 'login_admin.html', context={"errormsg": "Invalid username or password"})
+                return render(request, 'Authantication/login_admin.html', context={"errormsg": "Invalid username or password"})
 
     else:
         query = {"username": username_cookie, "password": password_cookie}
@@ -58,8 +58,8 @@ def adminAuth(request):
             # redirect to home app for admin
             return HttpResponseRedirect(f"admin/check/{admin_details['_id']}")
         else:
-            return render(request, 'login_admin.html', context={"errormsg": "Invalid username or password"})
-    return render(request, 'login_admin.html')
+            return render(request, 'Authantication/login_admin.html', context={"errormsg": "Invalid username or password"})
+    return render(request, 'Authantication/login_admin.html')
 
 # staff authantication check
 
@@ -92,7 +92,7 @@ def staffAuth(request):
                 # redirect to home app for staff
                 return response
             else:
-                return render(request, 'login_staff.html', context={"errormsg": "Invalid username or password"})
+                return render(request, 'Authantication/login_staff.html', context={"errormsg": "Invalid username or password"})
 
     else:
         query = {"username": username_cookie, "password": password_cookie}
@@ -101,8 +101,8 @@ def staffAuth(request):
             # redirect to home app for staff
             return HttpResponseRedirect(f"staff/check/{staff_details['_id']}")
         else:
-            return render(request, 'login_staff.html', context={"errormsg": "Invalid username or password"})
-    return render(request, 'login_staff.html')
+            return render(request, 'Authantication/login_staff.html', context={"errormsg": "Invalid username or password"})
+    return render(request, 'Authantication/login_staff.html')
 
 # forget password process
 
@@ -129,7 +129,7 @@ def varifyMail(request, type):
                 request.session['otp'] = otp
                 return HttpResponseRedirect('/forgot-password-step/admin')
 
-            return render(request, 'varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
+            return render(request, 'Authantication/varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
         elif type == "staff":
             is_staff = staff_collection.find_one({"email": email})
 
@@ -142,11 +142,11 @@ def varifyMail(request, type):
                 request.session['otp'] = otp
                 return HttpResponseRedirect('/forgot-password-step/staff')
 
-            return render(request, 'varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
+            return render(request, 'Authantication/varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
         else:
-            return render(request, 'varify_mail.html')
+            return render(request, 'Authantication/varify_mail.html')
 
-    return render(request, 'varify_mail.html', context={"type": type})
+    return render(request, 'Authantication/varify_mail.html', context={"type": type})
 
 # forget password step varification
 
@@ -166,10 +166,10 @@ def forgetPassStep(request, type):
         if otp == returnOtp:
             return HttpResponseRedirect(f'/change-password/{type}')
         else:
-            return render(request, 'varify_otp.html', context={"type": type})
+            return render(request, 'Authantication/varify_otp.html', context={"type": type})
 
     else:
-        return render(request, 'varify_otp.html', context={"type": type})
+        return render(request, 'Authantication/varify_otp.html', context={"type": type})
 
 
 # resend otp
@@ -188,7 +188,7 @@ def resendOtpMail(request, type):
             
             return HttpResponseRedirect(f'/forgot-password-step/{type}')
 
-        return render(request, 'varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
+        return render(request, 'Authantication/varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
     elif type == "staff":
         uid = request.session['staff_id']
         is_staff = staff_collection.find_one({"_id": ObjectId(uid)})
@@ -201,7 +201,7 @@ def resendOtpMail(request, type):
 
             return HttpResponseRedirect(f'/forgot-password-step/{type}')
 
-        return render(request, 'varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
+        return render(request, 'Authantication/varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
 
 # change password
 
@@ -224,12 +224,12 @@ def changePassword(request, type):
                 del request.session['otp']
                 return HttpResponseRedirect('/staff-auth')
             else:
-                return render(request, 'change_password.html', context={"type": type, "errormsg": "passwords don't match!"})
+                return render(request, 'Authantication/change_password.html', context={"type": type, "errormsg": "passwords don't match!"})
 
         else:
-            return render(request, 'change_password.html', context={"type": type, "errormsg": "passwords don't match!"})
+            return render(request, 'Authantication/change_password.html', context={"type": type, "errormsg": "passwords don't match!"})
     else:
-        return render(request, 'change_password.html', context={"type": type})
+        return render(request, 'Authantication/change_password.html', context={"type": type})
 
 
 # ADDITIONAL FEAATURES
