@@ -21,6 +21,10 @@ def index(request):
 
 
 def adminAuth(request):
+    if 'admin_id' in request.session:
+        del request.session['admin_id']
+    if 'otp' in request.session:
+        del request.session['otp']
     username_cookie = request.COOKIES.get('CRM-Auth-username')
     password_cookie = request.COOKIES.get('CRM-Auth-password')
 
@@ -61,6 +65,10 @@ def adminAuth(request):
 
 
 def staffAuth(request):
+    if 'staff_id' in request.session:
+        del request.session['staff_id']
+    if 'otp' in request.session:
+        del request.session['otp']
     username_cookie = request.COOKIES.get('CRM-Auth-staff-username')
     password_cookie = request.COOKIES.get('CRM-Auth-staff-password')
 
@@ -100,6 +108,12 @@ def staffAuth(request):
 
 
 def varifyMail(request, type):
+    if 'admin_id' in request.session:
+        del request.session['admin_id']
+    if 'staff_id' in request.session:
+        del request.session['staff_id']
+    if 'otp' in request.session:
+        del request.session['otp']
     if request.method == "POST":
         email = request.POST.get("forgot-password-email")
 
@@ -161,28 +175,31 @@ def forgetPassStep(request, type):
 # resend otp
 
 
-def resendOtpMail(request, type, uid):
+def resendOtpMail(request, type):
     if type == "admin":
+        uid = request.session['admin_id']
         is_admin = admin_collection.find_one({"_id": ObjectId(uid)})
 
         if bool(is_admin):
             otp = otpgen(6)
+            request.session['otp'] = otp
             mail_response = send_email(
-                "Reset Password", f"OTP : {otp}", my_mail, is_admin['email'])
-            print(mail_response)
+                "Reset Password", f"OTP : {otp}", is_admin['email'])
             
-            return render(request, 'varify_otp.html', context={"type": type, "crossotp": otp, "uid": is_admin['_id'], "email": is_admin['email']})
+            return HttpResponseRedirect(f'/forgot-password-step/{type}')
 
         return render(request, 'varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
     elif type == "staff":
+        uid = request.session['staff_id']
         is_staff = staff_collection.find_one({"_id": ObjectId(uid)})
 
         if bool(is_staff):
             otp = otpgen(6)
+            request.session['otp'] = otp
             mail_response = send_email("Reset Password", f"OTP : {otp}", is_staff['email'])
             print(mail_response)
 
-            return render(request, 'varify_otp.html', context={"type": type, "crossotp": otp, "uid": is_staff['_id'], "email": is_staff['email']})
+            return HttpResponseRedirect(f'/forgot-password-step/{type}')
 
         return render(request, 'varify_mail.html', context={"type": type, "errormsg": "Invalid Email Please Try Again!"})
 
