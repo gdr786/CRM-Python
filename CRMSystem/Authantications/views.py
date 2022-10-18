@@ -34,7 +34,7 @@ def adminAuth(request):
             password = request.POST.get("login-password")
             remember_me = request.POST.get("remember-me")
 
-            query = {"username": username, "password": password}
+            query = {"username": username, "password": password, "status": 1}
             admin_details = admin_collection.find_one(query)
             # print(admin_details[0]['_id'])
 
@@ -52,7 +52,7 @@ def adminAuth(request):
                 return render(request, 'Authantication/login_admin.html', context={"errormsg": "Invalid username or password"})
 
     else:
-        query = {"username": username_cookie, "password": password_cookie}
+        query = {"username": username_cookie, "password": password_cookie, "status": 1}
         admin_details = admin_collection.find_one(query)
         if (bool(admin_details)):
             # redirect to home app for admin
@@ -78,7 +78,7 @@ def staffAuth(request):
             password = request.POST.get("login-password")
             remember_me = request.POST.get("remember-me")
 
-            query = {"username": username, "password": password}
+            query = {"username": username, "password": password, "status": 1}
             staff_details = staff_collection.find_one(query)
 
             if (bool(staff_details)):
@@ -95,7 +95,7 @@ def staffAuth(request):
                 return render(request, 'Authantication/login_staff.html', context={"errormsg": "Invalid username or password"})
 
     else:
-        query = {"username": username_cookie, "password": password_cookie}
+        query = {"username": username_cookie, "password": password_cookie, "status": 1}
         staff_details = staff_collection.find_one(query)
         if (bool(staff_details)):
             # redirect to home app for staff

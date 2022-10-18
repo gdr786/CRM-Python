@@ -1,0 +1,349 @@
+{% extends 'Admin-home/admin_base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/plugins/forms/form-validation.css' %}" />
+<!-- END: Page CSS-->
+{% endblock stylesheet %}
+
+{% block javascript %}
+<!-- BEGIN: Vendor JS-->
+<script src="{% static 'vendors/js/forms/validation/jquery.validate.min.js' %}"></script>
+<script src="{% static 'vendors/js/pickers/flatpickr/flatpickr.min.js' %}"></script>
+<!-- BEGIN Vendor JS-->
+<!-- BEGIN: Page JS-->
+<script src="{% static 'js/scripts/pages/auth-admin.js' %}"></script>
+<!-- END: Page JS-->
+{% endblock javascript %}
+
+{% block main_home %}
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0" id="page-title">
+                            {% if is_edit %}
+                            Edit
+                            {% else %}
+                            Add
+                            {% endif %} Admin</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="admin-home">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="admin-list">Admin</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    {% if is_edit %}
+                                    Edit
+                                    {% else %}
+                                    Add
+                                    {% endif %} Admin
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-header-right text-md-end col-md-3 col-12">
+                <div class="mb-1 breadcrumb-right">
+                    <a href="admin-list">
+                        <button type="button" class="btn btn-primary waves-effect waves-float waves-light"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-chevron-left">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg> Admin
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- Relative code start -->
+            <section id="basic-horizontal-layouts">
+                <div class="row">
+                    <div class="col-md-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">
+                                    {% if is_edit %}
+                                    Edit
+                                    {% else %}
+                                    Add
+                                    {% endif %} Admin
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="auth-admin-form form form-horizontal"
+                                    action="{% if is_edit %}edit-admin/{{ data.id }}/edit{% else %}add-admin{% endif %}"
+                                    method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{% if is_edit %}{{ data.id }}{% endif %}">
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="fName">First Name</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text"><i
+                                                                data-feather="user"></i></span>
+                                                        <input type="text" id="fName" tabindex="1" class="form-control"
+                                                            name="fName" placeholder="First Name" autofocus
+                                                            value="{% if is_edit %}{{ data.f_name }}{% endif %}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="lName">Last Name</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text"><i
+                                                                data-feather="user"></i></span>
+                                                        <input type="text" id="lName" tabindex="2" class="form-control"
+                                                            name="lName" placeholder="Last Name"
+                                                            value="{% if is_edit %}{{ data.l_name }}{% endif %}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="phone">Phone</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text"><i
+                                                                data-feather="smartphone"></i></span>
+                                                        <input type="number" id="phone" tabindex="3"
+                                                            class="form-control" name="phone" placeholder="Phone"
+                                                            value="{% if is_edit %}{{ data.contact_no }}{% endif %}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="email">Email</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text"><i
+                                                                data-feather="mail"></i></span>
+                                                        <input type="email" id="email" class="form-control" tabindex="4"
+                                                            name="email" placeholder="Email"
+                                                            value="{% if is_edit %}{{ data.email }}{% endif %}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="joiningDate">Joining Date</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text">
+                                                            <i data-feather='calendar'></i></span>
+                                                        <input type="date" id="joiningDate" class="form-control"
+                                                            tabindex="5" name="joiningDate" placeholder="Joining Date"
+                                                            value="{% if is_edit %}{{ data.joining_date|date:'Y-m-d' }}{% endif %}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="DateOfBirth">
+                                                        Date of Birth</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text">
+                                                            <i data-feather='calendar'></i></span>
+                                                        <input type="date" id="DateOfBirth" class="form-control"
+                                                            tabindex="6" name="DateOfBirth" placeholder="Date of Birth"
+                                                            value="{% if is_edit %}{{ data.DOB|date:'Y-m-d' }}{% endif %}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="username">Username</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text">
+                                                            <i data-feather='user-check'></i></span>
+                                                        <input type="text" id="username" tabindex="7"
+                                                            class="form-control" name="username" placeholder="Username"
+                                                            value="{% if is_edit %}{{ data.username }}{% endif %}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="password">Password</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text"><i
+                                                                data-feather="lock"></i></span>
+                                                        <input type="password" id="password" tabindex="8"
+                                                            class="form-control" name="password" placeholder="Password"
+                                                            value="{% if is_edit %}{{ data.password }}{% endif %}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="role">Role</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <select class="form-control" name="role" id="role" tabindex="9">
+                                                            <option value="" 
+                                                            {% if data.role == "" %}
+                                                            selected
+                                                            {% endif %}
+                                                            >--Select Role--</option>
+                                                            <option value="admin" 
+                                                            {% if data.role == "admin" %}
+                                                            selected
+                                                            {% endif %}>
+                                                                Admin
+                                                            </option>
+                                                            <option value="superAdmin" 
+                                                            {% if data.role == "superAdmin" %}
+                                                                selected {% endif %}>Super
+                                                                Admin</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-3">
+                                                    <label class="col-form-label" for="status">Status</label>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group input-group-merge">
+                                                        <select class="form-control" name="status" id="status"
+                                                            tabindex="10">
+                                                            <option value="" 
+                                                            {% if data.status == "" %} 
+                                                            selected 
+                                                            {% endif %}>--Select Status--</option>
+                                                            <option value="1" 
+                                                            {% if data.status == 1 %}
+                                                            selected 
+                                                            {% endif %}>Active</option>
+                                                            <option value="2" 
+                                                            {% if data.status == 2 %}
+                                                            selected
+                                                            {% endif %}>On Leave</option>
+                                                            <option value="3" 
+                                                            {% if data.status == 3 %}
+                                                            selected
+                                                            {% endif %}>Left</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="mb-1 row">
+                                                <div class="col-sm-2">
+                                                    <label class="col-form-label" for="back_image">Image</label>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {% if data.image|length > 0 %}
+                                                    <div class="avatar  me-1">
+                                                        <img src="{% static 'media/files/' %}{{ data.image }}" alt="Avatar"
+                                                            width="50" height="50"></div>
+                                                    {% else %}
+                                                    <div class="avatar  bg-light-warning  me-1"><span
+                                                        class="avatar-content">NO</span></div>
+                                                    {% endif %}
+                                                    
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group input-group-merge">
+                                                        <span class="input-group-text">
+                                                            <i data-feather="image"></i></span>
+                                                        <input class="form-control" type="file" id="image" name="image"
+                                                            tabindex="11" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-9 offset-sm-2">
+                                            <button type="submit" name="add" tabindex="12"
+                                                class="btn btn-primary me-1">{% if is_edit %}
+                                                Update
+                                                {% else %}
+                                                Add
+                                                {% endif %}</button>
+                                            <button type="reset" class="btn btn-outline-secondary">Reset</button>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div id="imgmodal"></div>
+            <button type="button" class="btn btn-outline-primary" id="imagemodalbtn" data-bs-toggle="modal"
+                data-bs-target="#exampleModalCenter" style="display: none;"></button>
+            <button type="button" id="admin-allready-exists" style="display: none;">admin-allready-exists</button>
+            <button type="button" id="error-admin-data" style="display: none;">error-admin-data</button>
+            <!-- Relative code end -->
+        </div>
+    </div>
+</div>
+<script>
+    if (true) {
+        toster_botton("admin-success");
+    }
+</script>
+{% endblock main_home %}
